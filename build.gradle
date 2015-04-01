@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'idea'
+    id 'com.bmuschko.tomcat' version '2.1'
+}
+
+assert gradle.gradleVersion == '2.3'
+
+version = '0.0.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+configurations {
+    all*.exclude group: 'javax.inject', module: 'javax.inject' // dependency of HK2, replaced with org.glassfish.hk2.external:javax.inject:2.4.0-b10
+}
+
+dependencies {
+    providedCompile group: 'org.jboss.spec.javax.servlet', name: 'jboss-servlet-api_3.0_spec', version: '1.0.2.Final'
+
+    compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.0.1'
+
+    def jerseyVersion = '2.17'
+    runtime group: 'org.glassfish.jersey.core', name: 'jersey-server', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version: jerseyVersion
+    runtime group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: jerseyVersion
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    def hamcrestVersion = '1.3'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: hamcrestVersion
+    testCompile group: 'org.hamcrest', name: 'hamcrest-library', version: hamcrestVersion
+    testCompile group: 'org.glassfish.jersey.test-framework', name: 'jersey-test-framework-core', version: jerseyVersion
+    testCompile group: 'org.glassfish.jersey.test-framework.providers', name: 'jersey-test-framework-provider-inmemory', version: jerseyVersion
+
+    def tomcatVersion = '8.0.20' // Java Buildpack Version: v2.7.1 | https://github.com/cloudfoundry/java-buildpack#fee275a
+    tomcat group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: tomcatVersion
+    tomcat group: 'org.apache.tomcat.embed', name: 'tomcat-embed-logging-juli', version: tomcatVersion
+    tomcat group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: tomcatVersion
+}
+
+idea.module {
+    // IDEA's default output is inside build, which causes no end of pain
+    outputDir = file('.idea/classes/main')
+    testOutputDir = file('.idea/classes/test')
+}
+
+task createBuildDirectories << {
+    sourceSets.main.output.resourcesDir.mkdirs()
+}
+tomcatRun.dependsOn createBuildDirectories
