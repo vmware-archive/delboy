@@ -1,0 +1,9 @@
+Del Boy is a simple Cloud Foundry service broker, written mostly to figure out how to write simple Cloud Foundry service brokers. _Lovely jubbly!_
+
+Right now, this project is mildly interesting only for the mass of JSON matchers in io.pivotal.labs.matchers, which at some point will hopefully move to a project of their own.
+
+Build with Gradle:
+
+--------------------------------------
+./gradlew build
+--------------------------------------
