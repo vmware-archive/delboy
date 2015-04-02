@@ -5,12 +5,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.util.Map;
-import java.util.Set;
 
-import static io.pivotal.labs.delboy.test.MapMatchers.entries;
-import static io.pivotal.labs.delboy.test.MapMatchers.entry;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.instanceOf;
+import static io.pivotal.labs.matchers.JsonMatchers.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 public class CatalogResourceTests {
@@ -19,9 +16,21 @@ public class CatalogResourceTests {
     public final JerseyTestRule jersey = new JerseyTestRule(CatalogResource.class);
 
     @Test
-    public void shouldReturnACatalogRootedInAListOfServices() {
-        Map<String, Object> catalog = jersey.target("/v2/catalog").request().get(Map.class);
-        assertThat(catalog, entries(contains(entry("services", instanceOf(Set.class)))));
+    public void shouldReturnACatalogRootedInAListOfServicesContainingOnlyItself() {
+        Object catalog = jersey.target("/v2/catalog").request().get(Map.class);
+
+        assertThat(catalog, jsonObjectWith(
+                property("services", jsonArrayWhich(contains(
+                        jsonObjectWith(
+                                property("id", not(isEmptyOrNullString())),
+                                property("name", equalTo("dynamic-service-broker")),
+                                property("description", not(isEmptyOrNullString())),
+                                property("bindable", equalTo(false)),
+                                property("plans", jsonArrayWhich(contains(
+                                        jsonObjectWith(
+                                                property("id", not(isEmptyOrNullString())),
+                                                property("name", equalTo("default")),
+                                                property("description", not(isEmptyOrNullString()))))))))))));
     }
 
 }
