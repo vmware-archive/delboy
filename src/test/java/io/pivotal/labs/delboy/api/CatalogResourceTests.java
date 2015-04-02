@@ -25,7 +25,7 @@ public class CatalogResourceTests {
                                 property("id", not(isEmptyOrNullString())),
                                 property("name", equalTo("dynamic-service-broker")),
                                 property("description", not(isEmptyOrNullString())),
-                                property("bindable", equalTo(false)),
+                                property("bindable", equalTo(true)),
                                 property("plans", jsonArrayWhich(contains(
                                         jsonObjectWith(
                                                 property("id", not(isEmptyOrNullString())),

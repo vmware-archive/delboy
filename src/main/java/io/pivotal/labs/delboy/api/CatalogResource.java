@@ -18,7 +18,7 @@ public class CatalogResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Catalog getCatalog() {
         Plan plan = new Plan(UUID.randomUUID(), "default", "a plan");
-        Catalog catalog = new Catalog(Collections.singletonList(new Service(UUID.randomUUID(), "dynamic-service-broker", "a service", false, Collections.singletonList(plan))));
+        Catalog catalog = new Catalog(Collections.singletonList(new Service(UUID.randomUUID(), "dynamic-service-broker", "a service", true, Collections.singletonList(plan))));
         return catalog;
     }
 
