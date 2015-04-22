@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 public class CatalogResourceTests {
 
     @Rule
-    public final JerseyTestRule jersey = new JerseyTestRule(CatalogResource.class);
+    public final JerseyTestRule jersey = new JerseyTestRule(CatalogResource.class, ServiceRepositoryProvider.class);
 
     @Test
     public void shouldReturnACatalogRootedInAListOfServicesContainingOnlyItself() {

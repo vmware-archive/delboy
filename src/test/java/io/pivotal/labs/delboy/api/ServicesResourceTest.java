@@ -1,7 +1,6 @@
 package io.pivotal.labs.delboy.api;
 
 import io.pivotal.labs.delboy.test.JerseyTestRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -18,7 +17,7 @@ import static org.hamcrest.Matchers.*;
 public class ServicesResourceTest {
 
     @Rule
-    public final JerseyTestRule jersey = new JerseyTestRule(ServicesResource.class, CatalogResource.class);
+    public final JerseyTestRule jersey = new JerseyTestRule(ServicesResource.class, CatalogResource.class, ServiceRepositoryProvider.class);
 
     @Test
     public void postCreatesANewService() throws Exception {
@@ -37,7 +36,6 @@ public class ServicesResourceTest {
                                 property("name", equalTo("default"))))))));
     }
 
-    @Ignore("work in progress")
     @Test
     public void postCreatesANewServiceWhichIsListedInTheCatalog() throws Exception {
         Map<String, Object> request = map(entry("name", "testservice"), entry("description", "A test service"));
