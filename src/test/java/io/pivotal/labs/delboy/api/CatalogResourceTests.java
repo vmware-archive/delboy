@@ -1,5 +1,6 @@
 package io.pivotal.labs.delboy.api;
 
+import io.pivotal.labs.delboy.test.InitialContextRule;
 import io.pivotal.labs.delboy.test.JerseyTestRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,6 +15,9 @@ public class CatalogResourceTests {
 
     @Rule
     public final JerseyTestRule jersey = new JerseyTestRule(CatalogResource.class, ServiceRepositoryProvider.class);
+
+    @Rule
+    public final InitialContextRule initialContextRule = new InitialContextRule();
 
     @Test
     public void shouldReturnACatalogRootedInAListOfServicesContainingOnlyItself() {

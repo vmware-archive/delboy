@@ -1,20 +1,27 @@
 package io.pivotal.labs.delboy;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 public class Plan {
 
-    private UUID id;
+    @Id
+    private String id;
     private String name;
     private String description;
 
     public Plan(UUID id, String name, String description) {
-        this.id = id;
+        this.id = id.toString();
         this.name = name;
         this.description = description;
     }
 
-    public UUID getId() {
+    protected Plan() {
+    }
+
+    public String getId() {
         return id;
     }
 
